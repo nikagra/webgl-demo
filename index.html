@@ -1,7 +1,36 @@
 <html>
     <head>
         <title>WebGl demo</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type"></meta>
+        <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
         <script type="text/javascript" src="webgl-demo.js"></script>
+        <script id="shader-vertex" type="x-shader/x-vertex">
+
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+
+            attribute vec3 inPosition;
+            attribute vec3 inColor;
+
+            varying vec3 fColor;
+
+            void main()
+            {
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(inPosition, 1.0);
+                fColor = inColor;
+            }
+        </script>
+        <script id="shader-fragment" type="x-shader/x-fragment">
+
+            precision mediump float;
+
+            varying vec3 fColor;
+            
+            void main()
+            {
+                gl_FragColor = vec4(fColor, 1.0);
+            }
+        </script>
     </head>
 
     <body onload="start()">
